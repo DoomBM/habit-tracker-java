@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 public class HabitTracker {
-    private List<String> listaHabitos;
-    private List<String> completados;
+    private List<Habito> listaHabitos;
+    private List<Habito> completados;
     
     public HabitTracker() {
         this.listaHabitos = new ArrayList<>();
@@ -16,8 +16,8 @@ public class HabitTracker {
                 System.out.println("No se encuentra ningun habito");
             }
             else {
-                for(String habito: this.listaHabitos) {
-                    System.out.println(i + ". " + habito);
+                for(Habito habito: this.listaHabitos) {
+                    System.out.println(i + ". " + habito.getNombre());
                     i++;
                 }
             }
@@ -27,18 +27,18 @@ public class HabitTracker {
                 System.out.println("No se encuentra ningun habito completado");
             }
             else {
-                for(String completo: this.completados) {
-                    System.out.println(i + ". " + completo);
+                for(Habito completo: this.completados) {
+                    System.out.println(i + ". " + completo.getNombre());
                 i++;
                 }
             }
         }
     }
     
-    public void addHabito(String habito) {
+    public void addHabito(Habito habito) {
         boolean existe = false;
-        for(String comparar : this.listaHabitos) {
-            existe = comparar.equalsIgnoreCase(habito);
+        for(Habito comparar : this.listaHabitos) {
+            existe = comparar.getNombre().equalsIgnoreCase(habito.getNombre());
             if (existe) {
                 System.out.println("Ese habito ya existe.");
                 break;
@@ -50,10 +50,19 @@ public class HabitTracker {
     }
     
     public void completar(int habito) {
+        boolean existente = false;
         if(habito > 0 && habito <= listaHabitos.size()) {
-            String completado = listaHabitos.get(habito - 1);
-            this.completados.add(completado);
-            this.listaHabitos.remove(habito - 1);
+            for(Habito comparar : this.completados) {
+                if(comparar.getNombre().equals(this.listaHabitos.get(habito -1).getNombre())){
+                    System.out.println("Este habito ya lo completaste");
+                    existente = true;
+                    break;
+                }
+            }
+            if(!existente) {
+                Habito completado = this.listaHabitos.get(habito - 1);
+                this.completados.add(completado);
+            }
         }
         else {
             System.out.println("Ese habito no existe");
